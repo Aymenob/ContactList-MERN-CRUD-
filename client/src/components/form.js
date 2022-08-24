@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Form({handleAdd,handleSubmit}) {
+export default function Form({handleAdd,handleSubmit,handleDeleteAll}) {
   return (
     
     <div className="col-12 col-lg-4">
@@ -24,6 +24,7 @@ export default function Form({handleAdd,handleSubmit}) {
         <input type="text" className="form-control" name="Age" onChange={handleAdd}/>
       </div>
       <button onClick={handleSubmit} className="btn btn-primary">Add user</button>
+      <button style={{marginLeft:"0.5cm"}} onClick={handleDeleteAll} className="btn btn-danger">Delete All Users</button>
     </form>
   </div>
   )
