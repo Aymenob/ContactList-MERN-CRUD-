@@ -45,7 +45,7 @@ function UpdateUser(req, res) {
 function DeleteUser(req, res) {
 
 
-    User.FindByIdAndDelete({ _id: req.params.id }, function (err, result) {
+    User.findByIdAndDelete({ _id: req.params.id }, function (err, result) {
         err ? console.log(err) :
             res.json(result)
     })
