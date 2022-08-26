@@ -3,8 +3,8 @@ import axios from "axios"
 
 export const addUser = createAsyncThunk("user/addUser", async function (contact, { rejectWithValue }) {
     try {
-        axios.post("http://localhost:8081/User", contact)
-        return contact
+        const  {data}= await axios.post("http://localhost:8081/User", contact)
+        return data
     }
     catch (err) { rejectWithValue(err.response.data.message) }
 }
@@ -12,7 +12,7 @@ export const addUser = createAsyncThunk("user/addUser", async function (contact,
 
 export const getUsers=createAsyncThunk("users/getUsers",async function (_,{rejectWithValue}) {
     try{
-       const data= await axios.get("http://localhost:8081").then(data=>{return data})
+       const {data}= await axios.get("http://localhost:8081").then(data=>{return data})
         return data
     }
     catch(err){return rejectWithValue(err.response.data.message)}
@@ -20,13 +20,14 @@ export const getUsers=createAsyncThunk("users/getUsers",async function (_,{rejec
 
 export const deleteUser=createAsyncThunk("users/deleteUser",async function (id,{rejectWithValue}) {
   try{
-    const data=await axios.delete("http://localhost:8081/Delete/"+id)
-    return data}
+    const {data}=await axios.delete("http://localhost:8081/Delete/"+id)
+    return data
+}
   catch(err){return rejectWithValue(err.response.data.message)}
 })
 
 const initialState = {
-    user: {},
+    addedUser: {},
     deletedUser:{},
     users:[],
     loading: false,
@@ -41,7 +42,9 @@ export const counterSlice = createSlice({
         },
         [addUser.fulfilled]: (state, { payload }) => {
             state.loading = false;
-            state.user = payload
+            state.addedUser = payload;
+            state.deletedUser={}
+            state.users=[...state.users,payload]
         },
         [addUser.rejected]: (state, { payload }) => {
             state.loading = false;
@@ -63,7 +66,8 @@ export const counterSlice = createSlice({
         },
         [deleteUser.fulfilled]:(state,{payload})=>{
             state.loading=false;
-            state.deletedUser=payload
+            state.deletedUser=payload;
+            state.users=state.users.filter(e=>e._id!==payload._id)
         },
         [deleteUser.rejected]:(state,{payload})=>{
             state.loading=false;

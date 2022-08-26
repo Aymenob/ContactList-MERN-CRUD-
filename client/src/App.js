@@ -4,18 +4,20 @@ import Thread from './components/thread';
 import { useEffect, useState} from 'react';
 import Contact from './components/contact';
 import { addUser,getUsers,deleteUser } from "./Redux/slice.js"
-import { useDispatch } from "react-redux"
+import { useDispatch,useSelector } from "react-redux"
+
+
 function App() {
+  const Users=useSelector(state=>state.Users.users)
   const dispatch = useDispatch()
   const axios = require("axios")
-  const [Contacts, setContacts] = useState([])
   const [contact, setcontact] = useState({})
   const handleAdd = (e) => { setcontact({ ...contact, [e.target.name]: e.target.value }) }
 
   async function getContacts() {
     try {
-      dispatch(getUsers()).then(data=>setContacts(data.payload.data))
-    }
+      dispatch(getUsers()) }
+      
     catch (err) { console.log(err) }
   }
 
@@ -23,6 +25,8 @@ function App() {
     try {
       e.preventDefault();
       dispatch(addUser(contact))
+      
+      setcontact({Email:"",Lastname:"",Firstname:"",Age:""})
     }
     catch (err) { console.log(err) }
   }
@@ -50,11 +54,11 @@ function App() {
 
     <body>
       <div className="row p-4">
-        <Form handleAdd={handleAdd} handleSubmit={handleSubmit} handleDeleteAll={handleDeleteAll} />
+        <Form  contact={contact} handleAdd={handleAdd} handleSubmit={handleSubmit} handleDeleteAll={handleDeleteAll} />
         <div className="col-12 col-lg-7">
           <table className="table">
             <Thread />
-            {Contacts.map((e) => <Contact handleDeleteUser={()=>handleDeleteUser(e._id)}  Email={e.Email} Lastname={e.Lastname} Firstname={e.Firstname} Age={e.Age} />)}
+            {Users.map((e) => <Contact key={e._id} handleDeleteUser={()=>handleDeleteUser(e._id)}  Email={e.Email} Lastname={e.Lastname} Firstname={e.Firstname} Age={e.Age} />)}
           </table>
         </div>
       </div>
