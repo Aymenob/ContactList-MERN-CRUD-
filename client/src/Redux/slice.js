@@ -26,9 +26,18 @@ export const deleteUser=createAsyncThunk("users/deleteUser",async function (id,{
   catch(err){return rejectWithValue(err.response.data.message)}
 })
 
+export const UpdateUser=createAsyncThunk("users/UpdateUser",async function (user,{rejectWithValue}) {
+    try{
+       const {data}=await axios.put("http://localhost:8081/"+user._id,user)
+       return data
+    }
+    catch(err){rejectWithValue(err.response.data.message)}
+})
+
 const initialState = {
     addedUser: {},
     deletedUser:{},
+    updatedUser:{},
     users:[],
     loading: false,
     error: null
@@ -72,7 +81,19 @@ export const counterSlice = createSlice({
         [deleteUser.rejected]:(state,{payload})=>{
             state.loading=false;
             state.error=payload
+        },
+        [UpdateUser.pending]:(state)=>{
+            state.loading=true
+        },
+        [UpdateUser.fulfilled]:(state,{payload})=>{
+            state.updatedUser=payload
+            state.users=state.users.map(e=>e._id===payload._id? {...e,payload}:e)
+        },
+        [UpdateUser.rejected]:(state,{payload})=>{
+            state.loading=false;
+            state.error=payload
         }
+
     }
  
 
