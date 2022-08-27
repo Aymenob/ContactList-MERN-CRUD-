@@ -2,7 +2,7 @@ import Form from '../components/form';
 import Thread from '../components/thread';
 import { useEffect, useState} from 'react';
 import Contact from '../components/contact';
-import { addUser,getUsers,deleteUser } from "../Redux/slice.js"
+import { addUser,getUsers,deleteUser,deleteUsers} from "../Redux/slice.js"
 import { useDispatch,useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom';
 
@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 function Home() {
   const Users=useSelector(state=>state.Users.users)
   const dispatch = useDispatch()
-  const axios = require("axios")
   const [contact, setcontact] = useState({})
   const handleAdd = (e) => { setcontact({ ...contact, [e.target.name]: e.target.value }) }
   const navigate=useNavigate()
@@ -35,12 +34,12 @@ function Home() {
   async function handleDeleteAll(e) {
     try {
       e.preventDefault()
-      await axios.delete("/RemoveCollection").then(res => console.log(res))
+      dispatch(deleteUsers())
     }
     catch (err) { console.log(err) }
   }
+
   async function handleDeleteUser(id) {
-  
    try{
     console.log(id)
      dispatch(deleteUser(id))}

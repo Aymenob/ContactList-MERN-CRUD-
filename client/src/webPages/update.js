@@ -30,19 +30,19 @@ function Update() {
                     <form>
 
                         <div class="mb-3">
-                            <label for="Email" class="form-label">Email address</label>
+                            <label htmlFor="Email" class="form-label">Email address</label>
                             <input type="text" defaultValue={User.Email} onChange={handleUpdate} class="form-control" name="Email" />
                         </div>
                         <div class="mb-3">
-                            <label for="Lastname" class="form-label">Lastname</label>
+                            <label htmlFor="Lastname" class="form-label">Lastname</label>
                             <input type="text" defaultValue={User.Lastname} onChange={handleUpdate} class="form-control" name="Lastname" />
                         </div>
                         <div class="mb-3">
-                            <label for="Firstname" class="form-label">Firstname</label>
+                            <label htmlFor="Firstname" class="form-label">Firstname</label>
                             <input type="text" defaultValue={User.Firstname} onChange={handleUpdate} class="form-control" name="Firstname" />
                         </div>
                         <div class="mb-3">
-                            <label for="Age" class="form-label">Age</label>
+                            <label htmlFor="Age" class="form-label">Age</label>
                             <input type="text" defaultValue={User.Age} onChange={handleUpdate} class="form-control" name="Age" />
                         </div>
                         <button onClick={Update} class="btn btn-primary" style={{backgroundColor:"green",border:"none"}}>Update</button>

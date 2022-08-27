@@ -1,7 +1,7 @@
 
 import './App.css';
 import Home from './webPages/Home';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes} from 'react-router-dom';
 import Update from './webPages/update';
 function App() {
   return (
