@@ -64,6 +64,8 @@ export const counterSlice = createSlice({
             state.addedUser = payload;
             state.deletedUser={}
             state.users=[...state.users,payload]
+            state.deleteUser={}
+            state.UpdateUser={}
         },
         [addUser.rejected]: (state, { payload }) => {
             state.loading = false;
@@ -87,6 +89,8 @@ export const counterSlice = createSlice({
             state.loading=false;
             state.deletedUser=payload;
             state.users=state.users.filter(e=>e._id!==payload._id)
+            state.addedUser={}
+            state.UpdateUser={}
         },
         [deleteUser.rejected]:(state,{payload})=>{
             state.loading=false;
@@ -98,10 +102,13 @@ export const counterSlice = createSlice({
         [UpdateUser.fulfilled]:(state,{payload})=>{
             state.updatedUser=payload
             state.users=state.users.map(e=>e._id===payload._id? {...e,payload}:e)
+            state.addedUser={}
+            state.deletedUser={}
         },
         [UpdateUser.rejected]:(state,{payload})=>{
             state.loading=false;
             state.error=payload
+            
         },
         [deleteUsers.pending]:(state)=>{
             state.loading=true
@@ -110,6 +117,7 @@ export const counterSlice = createSlice({
             state.loading=false;
             state.deletedUsers=payload;
             state.users=[]
+           
         },
         [deleteUsers.rejected]:(state,{payload})=>{
             state.loading=false;
